@@ -94,6 +94,48 @@ function updateChart() {
             }
         }
     });
+    // Cookie Consent Functions
+function checkCookieConsent() {
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+      document.getElementById('gdpr-banner').style.display = 'block';
+    }
+    return consent;
+  }
+  
+  function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('gdpr-banner').style.display = 'none';
+    loadGoogleAnalytics();
+  }
+  
+  function declineCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('gdpr-banner').style.display = 'none';
+  }
+  
+  // Google Analytics Loader
+  function loadGoogleAnalytics() {
+    if (localStorage.getItem('cookieConsent') === 'accepted') {
+      // Google Analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-16YD5TS88K'); // Replace with your GA ID
+  
+      // Add GA script dynamically
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K';
+      document.head.appendChild(script);
+    }
+  }
+  
+  // Initial check on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    checkCookieConsent();
+    loadGoogleAnalytics(); // Load if already accepted
+  });
 }
 
 // Initial chart render
