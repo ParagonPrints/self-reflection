@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add to <head> section of index.html -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Mood Check</h1>
+        
+        <div class="mood-selector">
+            <div class="mood-option" data-mood="1">😞</div>
+            <div class="mood-option" data-mood="2">😐</div>
+            <div class="mood-option" data-mood="3">😊</div>
+        </div>
+
+        <textarea id="notes" placeholder="Add your thoughts..."></textarea>
+        <button onclick="saveEntry()">Save Entry</button>
+        <div class="journal">
+            <h2>Mood Journal</h2>
+            <div id="journalEntries"></div>
+        </div>
+        <canvas id="moodChart"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+    kofiWidgetOverlay.draw('paragoncollective', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support Us',
+        'floating-chat.donateButton.background-color': '#323842',
+        'floating-chat.donateButton.text-color': '#fff'
+    });
+</script>
+</script>
+</body>
+</html>
