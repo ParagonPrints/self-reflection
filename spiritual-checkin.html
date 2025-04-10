@@ -112,23 +112,22 @@
             </div>
 
             <!-- Scoring System -->
+            <!-- Replace the scoring div with -->
             <div class="scoring">
                 <div class="main-score" data-question="1">
-                    <div class="score-header">
-                        <span>👑 Love God: </span>
-                        <span class="score-percent">0%</span>
-                    </div>
-                    <div class="score-bar"></div>
+                <div class="score-header">
+                    <span>👑 Love God</span>
                 </div>
-                
-                <div class="main-score" data-question="2">
-                    <div class="score-header">
-                        <span>🫶 Love Others: </span>
-                        <span class="score-percent">0%</span>
-                    </div>
-                    <div class="score-bar"></div>
-                </div>
+                <div class="score-bar"></div>
             </div>
+    
+            <div class="main-score" data-question="2">
+                <div class="score-header">
+                <span>🫶 Love Others</span>
+            </div>
+            <div class="score-bar"></div>
+        </div>
+    </div>
 
             <!-- Chart -->
             <div class="chart-container">
@@ -136,6 +135,10 @@
             </div>
 
             <button onclick="saveDailyCheckin()" class="save-button">Save Today's Check-In</button>
+        </div>
+        <div class="weakness-analysis">
+            <h3>Growth Opportunities</h3>
+            <div id="weaknessList"></div>
         </div>
     </div>
 

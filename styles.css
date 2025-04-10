@@ -319,28 +319,30 @@ input:checked + .slider:before {
     font-weight: 500;
 }
 
+/* Progress Bar Styles */
 .score-bar {
-    height: 10px;
+    height: 20px;
     background: #eee;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
+    position: relative;
 }
 
 .score-bar::after {
     content: "";
-    display: block;
-    width: 0%;
+    position: absolute;
+    left: 0;
+    top: 0;
     height: 100%;
-    background: #4CAF50;
+    width: var(--score-width, 0%);
+    background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 10px;
     transition: width 0.5s ease;
 }
 
-/* Chart Container */
-.chart-container {
-    margin: 3rem 0;
-    background: white;
-    padding: 1rem;
-    border-radius: 12px;
+/* Chart Label Removal */
+.chart-container canvas {
+    margin: 0 auto;
 }
 
 /* GDPR BANNER */

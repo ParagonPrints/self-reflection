@@ -100,6 +100,7 @@ let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins') || '[]
 let spiritualChart = null;
 
 // Score Calculation
+// Modified calculateScores function
 function calculateScores() {
     const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
     const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
@@ -107,29 +108,49 @@ function calculateScores() {
     document.querySelectorAll('.main-score').forEach(container => {
         const question = container.dataset.question;
         const checked = question === "1" ? q1Toggles : q2Toggles;
-        const percent = (checked / 4 * 100).toFixed(0);
+        const percent = (checked / 4 * 100);
         
-        container.querySelector('.score-percent').textContent = `${percent}%`;
-        container.querySelector('.score-bar').style.width = `${percent}%`;
+        container.querySelector('.score-bar').style.setProperty('--score-width', `${percent}%`);
     });
 }
 
 // Save Functionality
-function saveDailyCheckin() {
-    const q1Checked = document.querySelectorAll('[data-main-question="1"]:checked').length;
-    const q2Checked = document.querySelectorAll('[data-main-question="2"]:checked').length;
+// Simplified Chart Config
+function updateSpiritualChart() {
+    const ctx = document.getElementById('spiritualChart').getContext('2d');
     
-    const newEntry = {
-        date: new Date().toISOString(),
-        scores: {
-            q1: (q1Checked / 4 * 100).toFixed(0),
-            q2: (q2Checked / 4 * 100).toFixed(0)
+    if (spiritualChart) spiritualChart.destroy();
+    
+    spiritualChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: checkinEntries.map(entry => ''),
+            datasets: [
+                {
+                    data: checkinEntries.map(entry => entry.scores.q1),
+                    borderColor: '#4CAF50',
+                    tension: 0.1,
+                    pointRadius: 0
+                },
+                {
+                    data: checkinEntries.map(entry => entry.scores.q2),
+                    borderColor: '#FF9800',
+                    tension: 0.1,
+                    pointRadius: 0
+                }
+            ]
         },
-        details: {
-            q1: Array.from(document.querySelectorAll('[data-main-question="1"]')).map(input => input.checked),
-            q2: Array.from(document.querySelectorAll('[data-main-question="2"]')).map(input => input.checked)
+        options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: { display: false },
+                y: { display: false }
+            }
         }
-    };
+    });
+}
     
     // Prevent duplicate daily entries
     const today = new Date().toLocaleDateString();
@@ -147,7 +168,31 @@ function saveDailyCheckin() {
     }
 }
 
-
+function showWeaknesses() {
+    const weaknesses = [];
+    
+    // Calculate least-checked items
+    const allSubQuestions = checkinEntries.flatMap(entry => [
+        ...Object.entries(entry.details.q1),
+        ...Object.entries(entry.details.q2)
+    ]);
+    
+    const questionStats = allSubQuestions.reduce((acc, [q, checked]) => {
+        acc[q] = (acc[q] || 0) + (checked ? 1 : 0);
+        return acc;
+    }, {});
+    
+    Object.entries(questionStats).forEach(([q, count]) => {
+        const percentage = (count / checkinEntries.length * 100).toFixed(0);
+        if (percentage < 50) {
+            weaknesses.push(`Sub-question ${q}: ${percentage}% consistency`);
+        }
+    });
+    
+    document.getElementById('weaknessList').innerHTML = weaknesses.length
+        ? weaknesses.map(w => `<div class="weakness-item">${w}</div>`).join('')
+        : '<p>Great consistency across all practices! 🎉</p>';
+}
     // Cookie Consent Functions
 function checkCookieConsent() {
     const consent = localStorage.getItem('cookieConsent');
@@ -189,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('acceptCookies').addEventListener('click', acceptCookies);
     document.getElementById('declineCookies').addEventListener('click', declineCookies);
 });
-  }
+  
   
   // Google Analytics Loader
   function loadGoogleAnalytics() {
