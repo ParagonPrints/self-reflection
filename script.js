@@ -95,105 +95,58 @@ function updateChart() {
         }
     });
 
-    // Spiritual Check-In Logic
+// Spiritual Check-In Logic
 let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins') || '[]');
 let spiritualChart = null;
 
+// Score Calculation
 function calculateScores() {
-    const q1Toggles = document.querySelectorAll('[data-question="1"]:checked').length;
-    const q2Toggles = document.querySelectorAll('[data-question="2"]:checked').length;
+    const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
+    const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
     
-    // Animate score bars
     document.querySelectorAll('.main-score').forEach(container => {
         const question = container.dataset.question;
         const checked = question === "1" ? q1Toggles : q2Toggles;
-        const total = question === "1" ? 4 : 4; // Update if sub-question counts change
-        const percent = (checked / total * 100).toFixed(0);
+        const percent = (checked / 4 * 100).toFixed(0);
         
         container.querySelector('.score-percent').textContent = `${percent}%`;
         container.querySelector('.score-bar').style.width = `${percent}%`;
     });
 }
 
+// Save Functionality
 function saveDailyCheckin() {
-    const q1Score = document.querySelectorAll('[data-question="1"]:checked').length / 4 * 100;
-    const q2Score = document.querySelectorAll('[data-question="2"]:checked').length / 4 * 100;
+    const q1Checked = document.querySelectorAll('[data-main-question="1"]:checked').length;
+    const q2Checked = document.querySelectorAll('[data-main-question="2"]:checked').length;
     
-    const entry = {
+    const newEntry = {
         date: new Date().toISOString(),
-        scores: { q1: q1Score, q2: q2Score },
+        scores: {
+            q1: (q1Checked / 4 * 100).toFixed(0),
+            q2: (q2Checked / 4 * 100).toFixed(0)
+        },
         details: {
-            q1: Array.from(document.querySelectorAll('[data-question="1"]')).map(input => input.checked),
-            q2: Array.from(document.querySelectorAll('[data-question="2"]')).map(input => input.checked)
+            q1: Array.from(document.querySelectorAll('[data-main-question="1"]')).map(input => input.checked),
+            q2: Array.from(document.querySelectorAll('[data-main-question="2"]')).map(input => input.checked)
         }
     };
     
-    checkinEntries.push(entry);
-    localStorage.setItem('spiritualCheckins', JSON.stringify(checkinEntries));
-    updateSpiritualChart();
-}
-
-function updateSpiritualChart() {
-    const ctx = document.getElementById('spiritualChart').getContext('2d');
-    const labels = checkinEntries.map(entry => 
-        new Date(entry.date).toLocaleDateString()
+    // Prevent duplicate daily entries
+    const today = new Date().toLocaleDateString();
+    const existingEntry = checkinEntries.find(entry => 
+        new Date(entry.date).toLocaleDateString() === today
     );
     
-    if (spiritualChart) spiritualChart.destroy();
-    
-    spiritualChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: '🏆 Love God',
-                    data: checkinEntries.map(entry => entry.scores.q1),
-                    borderColor: '#4CAF50',
-                    tension: 0.1
-                },
-                {
-                    label: '🙌 Love Others',
-                    data: checkinEntries.map(entry => entry.scores.q2),
-                    borderColor: '#FF9800',
-                    tension: 0.1
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    min: 0,
-                    max: 100,
-                    ticks: {
-                        callback: value => `${value}%`
-                    }
-                }
-            }
-        }
-    });
+    if (!existingEntry) {
+        checkinEntries.push(newEntry);
+        localStorage.setItem('spiritualCheckins', JSON.stringify(checkinEntries));
+        updateSpiritualChart();
+        alert('Check-in saved successfully!');
+    } else {
+        alert('You already completed today\'s check-in!');
+    }
 }
 
-// Initialize
-document.querySelectorAll('.sub-question').forEach(input => {
-    input.addEventListener('change', calculateScores);
-});
-
-// Load previous check-in if same day
-const today = new Date().toLocaleDateString();
-const lastEntry = checkinEntries[checkinEntries.length - 1];
-if (lastEntry && new Date(lastEntry.date).toLocaleDateString() === today) {
-    // Restore toggles
-    lastEntry.details.q1.forEach((checked, i) => {
-        document.querySelectorAll('[data-question="1"]')[i].checked = checked;
-    });
-    lastEntry.details.q2.forEach((checked, i) => {
-        document.querySelectorAll('[data-question="2"]')[i].checked = checked;
-    });
-    calculateScores();
-}
-
-updateSpiritualChart();
 
     // Cookie Consent Functions
 function checkCookieConsent() {

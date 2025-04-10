@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Same head as mood-tracker.html -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Spiritual Check-In</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Include any existing analytics/scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/favicon/favicon-32x32.png">
 </head>
 <body>
     <header class="header">
@@ -14,118 +19,258 @@
 
     <div class="container">
         <div class="spiritual-checkin">
-            <!-- Question 1 -->
+            <!-- Question 1 - Love God -->
             <div class="question-card">
                 <h2>1. Did I love God with all my heart, soul, mind, and strength? (Mark 12:30)</h2>
                 <div class="scripture-guide">
                     <h3>Reflection Guide:</h3>
-                    <li class="guide-item">
-                    <div class="guide-text">
-                        <em>Heart:</em> "Where your treasure is, there your heart will be also" (Matthew 6:21) - Did I prioritize God above all else?
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" class="sub-question" data-question="1">
-                        <span class="slider"></span>
-                    <div class="guide-text">
-                        <em>Soul:</em> "My soul finds rest in God alone" (Psalm 62:1) - Did I cultivate spiritual rest through prayer?
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" class="sub-question" data-question="1">
-                        <span class="slider"></span>
-                    <div class="guide-text">
-                        <em>Mind:</em> "Set your minds on things above" (Colossians 3:2) - What occupied my thoughts today?
-                    </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                    <div class="guide-text">
-                        <em>Mind:</em> "Set your minds on things above" (Colossians 3:2) - What occupied my thoughts today?
-                    </div>
-                        <label class="toggle-switch">
-                        <input type="checkbox" class="sub-question" data-question="1">
-                        <span class="slider"></span>
                     <ul>
-
-                        <li>📖 <em>Heart:</em> "Where your treasure is, there your heart will be also" (Matthew 6:21) - Did I prioritize God above all else?
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 <em>Soul:</em> "My soul finds rest in God alone" (Psalm 62:1) - Did I cultivate spiritual rest through prayer?
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 <em>Strength:</em> "Whatever you do, work at it with all your heart, as working for the Lord" (Colossians 3:23) - Did I serve wholeheartedly?
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 <em>Heart:</em> "Where your treasure is, there your heart will be also" (Matthew 6:21)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="1" data-sub-question="1">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 <em>Soul:</em> "My soul finds rest in God alone" (Psalm 62:1)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="1" data-sub-question="2">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 <em>Mind:</em> "Set your minds on things above" (Colossians 3:2)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="1" data-sub-question="3">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 <em>Strength:</em> "Whatever you do, work at it with all your heart" (Colossians 3:23)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="1" data-sub-question="4">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Question 2 -->
+            <!-- Question 2 - Love Neighbor -->
             <div class="question-card">
                 <h2>2. Did I love my neighbor as myself? (Mark 12:31)</h2>
                 <div class="scripture-guide">
                     <h3>Reflection Guide:</h3>
                     <ul>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 "Whoever is kind to the poor lends to the Lord" (Proverbs 19:17) - Did I show practical compassion?</li>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 "Bear with each other and forgive" (Colossians 3:13) - Did I maintain unity in relationships?</li>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 "Do not neglect to do good and share" (Hebrews 13:16) - How did I share resources today?</li>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="sub-question" data-question="1">
-                            <span class="slider"></span>
-                        <li>📖 "Let your speech always be gracious" (Colossians 4:6) - Did my words build others up?</li>
-                    </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 "Whoever is kind to the poor lends to the Lord" (Proverbs 19:17)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="2" data-sub-question="1">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 "Bear with each other and forgive" (Colossians 3:13)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="2" data-sub-question="2">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 "Do not neglect to do good and share" (Hebrews 13:16)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="2" data-sub-question="3">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                        <li class="guide-item">
+                            <div class="guide-text">
+                                📖 "Let your speech always be gracious" (Colossians 4:6)
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="sub-question" data-main-question="2" data-sub-question="4">
+                                <span class="slider"></span>
+                            </label>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Add after the scripture guides -->
-<div class="scoring">
-    <div class="main-score" data-question="1">
-        <div class="score-header">
-            <span>👑 Love God: </span>
-            <span class="score-percent">0%</span>
-        </div>
-        <div class="score-bar"></div>
-    </div>
-    
-    <div class="main-score" data-question="2">
-        <div class="score-header">
-            <span>🫶 Love Others: </span>
-            <span class="score-percent">0%</span>
-        </div>
-        <div class="score-bar"></div>
-    </div>
-</div>
+            <!-- Scoring System -->
+            <div class="scoring">
+                <div class="main-score" data-question="1">
+                    <div class="score-header">
+                        <span>🏆 Love God Score: </span>
+                        <span class="score-percent">0%</span>
+                    </div>
+                    <div class="score-bar"></div>
+                </div>
+                
+                <div class="main-score" data-question="2">
+                    <div class="score-header">
+                        <span>🙌 Love Others Score: </span>
+                        <span class="score-percent">0%</span>
+                    </div>
+                    <div class="score-bar"></div>
+                </div>
+            </div>
 
-<div class="chart-container">
-    <canvas id="spiritualChart"></canvas>
-</div>
+            <!-- Chart -->
+            <div class="chart-container">
+                <canvas id="spiritualChart"></canvas>
+            </div>
 
-<button id="saveDailyCheckin()">Save Today's Check-In</button>
+            <button onclick="saveDailyCheckin()" class="save-button">Save Today's Check-In</button>
         </div>
     </div>
 
+    <!-- GDPR Banner -->
     <div id="gdpr-banner" class="gdpr-banner">
         <div class="gdpr-content">
-          <p>We use cookies to analyze site usage. Your data remains anonymous. 
-            <a href="privacy.html">Privacy Policy</a>
-          </p>
-          <div class="gdpr-buttons">
-            <button id="acceptCookies">Accept</button>
-            <button id="declineCookies">Decline</button>
+            <p>We use cookies to analyze site usage. Your data remains anonymous. 
+                <a href="privacy.html">Privacy Policy</a>
+            </p>
+            <div class="gdpr-buttons">
+                <button id="acceptCookies">Accept</button>
+                <button id="declineCookies">Decline</button>
+            </div>
         </div>
-        </div>
-      </div>
+    </div>
+
+    <script>
+        // Spiritual Check-In Logic
+        let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins')) || [];
+        let spiritualChart = null;
+
+        // Score Calculation
+        function calculateScores() {
+            const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
+            const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
+            
+            document.querySelectorAll('.main-score').forEach(container => {
+                const question = container.dataset.question;
+                const checked = question === "1" ? q1Toggles : q2Toggles;
+                const percent = (checked / 4 * 100).toFixed(0);
+                
+                container.querySelector('.score-percent').textContent = `${percent}%`;
+                container.querySelector('.score-bar').style.width = `${percent}%`;
+            });
+        }
+
+        // Save Functionality
+        function saveDailyCheckin() {
+            const q1Checked = document.querySelectorAll('[data-main-question="1"]:checked').length;
+            const q2Checked = document.querySelectorAll('[data-main-question="2"]:checked').length;
+            
+            const entry = {
+                date: new Date().toISOString(),
+                scores: {
+                    q1: (q1Checked / 4 * 100).toFixed(0),
+                    q2: (q2Checked / 4 * 100).toFixed(0)
+                },
+                details: {
+                    q1: Array.from(document.querySelectorAll('[data-main-question="1"]')).map(input => input.checked),
+                    q2: Array.from(document.querySelectorAll('[data-main-question="2"]')).map(input => input.checked)
+                }
+            };
+            
+            // Prevent duplicate daily entries
+            const today = new Date().toLocaleDateString();
+            const lastEntryDate = checkinEntries.length > 0 
+                ? new Date(checkinEntries[checkinEntries.length - 1].date).toLocaleDateString()
+                : null;
+            
+            if (lastEntryDate !== today) {
+                checkinEntries.push(entry);
+                localStorage.setItem('spiritualCheckins', JSON.stringify(checkinEntries));
+                updateSpiritualChart();
+                alert('Check-in saved successfully!');
+            } else {
+                alert('You already completed today\'s check-in!');
+            }
+        }
+
+        // Chart Initialization
+        function updateSpiritualChart() {
+            const ctx = document.getElementById('spiritualChart').getContext('2d');
+            const labels = checkinEntries.map(entry => 
+                new Date(entry.date).toLocaleDateString()
+            );
+            
+            if (spiritualChart) spiritualChart.destroy();
+            
+            spiritualChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '🏆 Love God',
+                            data: checkinEntries.map(entry => entry.scores.q1),
+                            borderColor: '#4CAF50',
+                            tension: 0.1
+                        },
+                        {
+                            label: '🙌 Love Others',
+                            data: checkinEntries.map(entry => entry.scores.q2),
+                            borderColor: '#FF9800',
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                callback: value => `${value}%`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize chart
+            updateSpiritualChart();
+            
+            // Restore previous check-in
+            const today = new Date().toLocaleDateString();
+            const lastEntry = checkinEntries[checkinEntries.length - 1];
+            
+            if (lastEntry && new Date(lastEntry.date).toLocaleDateString() === today) {
+                lastEntry.details.q1.forEach((checked, index) => {
+                    document.querySelectorAll('[data-main-question="1"]')[index].checked = checked;
+                });
+                lastEntry.details.q2.forEach((checked, index) => {
+                    document.querySelectorAll('[data-main-question="2"]')[index].checked = checked;
+                });
+                calculateScores();
+            }
+            
+            // Add toggle listeners
+            document.querySelectorAll('.sub-question').forEach(input => {
+                input.addEventListener('change', calculateScores);
+            });
+        });
+    </script>
 </body>
 </html>
