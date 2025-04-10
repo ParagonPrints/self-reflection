@@ -103,15 +103,43 @@ function checkCookieConsent() {
     return consent;
   }
   
-  function acceptCookies() {
-    localStorage.setItem('cookieConsent', 'accepted');
-    document.getElementById('gdpr-banner').style.display = 'none';
-    loadGoogleAnalytics();
-  }
-  
-  function declineCookies() {
-    localStorage.setItem('cookieConsent', 'declined');
-    document.getElementById('gdpr-banner').style.display = 'none';
+// Cookie Consent Functions
+function acceptCookies() {
+    try {
+        localStorage.setItem('cookieConsent', 'accepted');
+        document.getElementById('gdpr-banner').style.display = 'none';
+        loadGoogleAnalytics();
+        console.log('Cookies accepted - Analytics loaded');
+    } catch (e) {
+        console.error('Error saving consent:', e);
+    }
+}
+
+function declineCookies() {
+    try {
+        localStorage.setItem('cookieConsent', 'declined');
+        document.getElementById('gdpr-banner').style.display = 'none';
+        console.log('Cookies declined');
+    } catch (e) {
+        console.error('Error saving rejection:', e);
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const consent = localStorage.getItem('cookieConsent');
+    const banner = document.getElementById('gdpr-banner');
+    
+    if (!consent) {
+        banner.style.display = 'block';
+        console.log('Showing GDPR banner');
+    } else {
+        banner.style.display = 'none';
+        if (consent === 'accepted') {
+            loadGoogleAnalytics();
+        }
+    }
+});
   }
   
   // Google Analytics Loader
@@ -131,12 +159,7 @@ function checkCookieConsent() {
     }
   }
   
-  // Initial check on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    checkCookieConsent();
-    loadGoogleAnalytics(); // Load if already accepted
-  });
-}
+
 
 // Initial chart render
 updateChart(); displayJournal();
