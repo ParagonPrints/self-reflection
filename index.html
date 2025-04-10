@@ -3,71 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Tracker</title>
+    <title>Spiritual and Personal Growth</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/site.webmanifest">    
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-16YD5TS88K');
-</script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon/favicon-32x32.png">
 </head>
 <body>
-    <div class="container">
-        <h1>Daily Mood Check</h1>
-        
-        <div class="mood-selector">
-            <div class="mood-option" data-mood="1">😞</div>
-            <div class="mood-option" data-mood="2">😐</div>
-            <div class="mood-option" data-mood="3">😊</div>
-        </div>
+    <header class="header">
+        <h1>Growth Tools</h1>
+        <nav>
+            <a href="#trackers">Trackers</a>
+            <a href="#contact">Suggestions</a>
+        </nav>
+    </header>
 
-        <textarea id="notes" placeholder="Add your thoughts..."></textarea>
-        <button onclick="saveEntry()">Save Entry</button>
-        <div class="journal">
-            <h2>Mood Journal</h2>
-            <div id="journalEntries"></div>
-        </div>
-        <canvas id="moodChart"></canvas>
+    <main class="container">
+        <section class="hero">
+            <h2>Self-Reflection Tools for Spiritual Development</h2>
+            <p>Track your emotional and spiritual growth through structured self-assessment</p>
+        </section>
+
+        <section id="trackers" class="trackers-grid">
+            <!-- Mood Tracker -->
+            <div class="tracker-card">
+                <h3>Daily Mood Tracker</h3>
+                <div class="tracker-badge active">Active</div>
+                <p>Track your emotional states throughout the day and identify patterns in your mood fluctuations.</p>
+                <a href="mood-tracker.html" class="button">Start Tracking</a>
+            </div>
+
+            <!-- Wisdom Tracker -->
+            <div class="tracker-card">
+                <h3>Proverbs Wisdom Journal</h3>
+                <div class="tracker-badge coming-soon">Coming Soon</div>
+                <p>Weekly reflections based on Biblical wisdom from the Book of Proverbs. Includes guided questions for practical application.</p>
+                <div class="button disabled">Available Q1 2024</div>
+            </div>
+
+            <!-- Wesleyan Discipline -->
+            <div class="tracker-card">
+                <h3>Spiritual Discipline</h3>
+                <div class="tracker-badge coming-soon">Coming Soon</div>
+                <p>Weekly/Monthly accountability questions based on John Wesley's small group system for spiritual discipline.</p>
+                <div class="button disabled">Available Q2 2024</div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-form">
+            <h2>Suggest a New Tracker</h2>
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Tracker Idea:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="button">Send Suggestion</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- GDPR Banner -->
+    <div id="gdpr-banner" class="gdpr-banner">
+        <!-- ... keep existing GDPR code ... -->
     </div>
 
     <script src="script.js"></script>
-    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-    <script>
-    kofiWidgetOverlay.draw('paragoncollective', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'Support Us',
-        'floating-chat.donateButton.background-color': '#323842',
-        'floating-chat.donateButton.text-color': '#fff'
-    });
-</script>
-</script>
 </body>
-<!-- GDPR Notice -->
-<div id="gdpr-banner" class="gdpr-banner">
-    <div class="gdpr-content">
-      <p>We use cookies to analyze site usage. Your data remains anonymous. 
-        <a href="privacy.html">Privacy Policy</a>
-      </p>
-      <div class="gdpr-buttons">
-        <button id="acceptCookies">Accept</button>
-        <button id="declineCookies">Decline</button>
-    </div>
-    </div>
-  </div>
 </html>
