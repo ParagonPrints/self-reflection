@@ -346,7 +346,7 @@ input:checked + .slider:before {
 /* Chart Label Removal */
 .chart-container {
     margin: 3rem 0;
-    height: 200px; /* Fixed height */
+    height: 300px; /* Fixed height */
     position: relative;
 }
 

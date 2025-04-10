@@ -100,21 +100,18 @@ let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins') || '[]
 let spiritualChart = null;
 
 // Score Calculation
-// Modified calculateScores function
 function calculateScores() {
-    const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
-    const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
+    // Get toggle counts
+    const q1Checked = document.querySelectorAll('[data-main-question="1"]:checked').length;
+    const q2Checked = document.querySelectorAll('[data-main-question="2"]:checked').length;
     
-    document.querySelectorAll('.main-score').forEach(container => {
-        const question = container.dataset.question;
-        const checked = question === "1" ? q1Toggles : q2Toggles;
-        const percent = (checked / 4 * 100);
-        
-        container.querySelector('.score-fill').style.width = `${percent}%`;
-    });
+    // Update progress bars
+    document.querySelector('[data-question="1"] .score-fill').style.width = 
+        `${(q1Checked / 4 * 100)}%`;
+    document.querySelector('[data-question="2"] .score-fill').style.width = 
+        `${(q2Checked / 4 * 100)}%`;
 }
 
-// Save Functionality
 function updateSpiritualChart() {
     const ctx = document.getElementById('spiritualChart').getContext('2d');
     
@@ -123,20 +120,20 @@ function updateSpiritualChart() {
     spiritualChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: checkinEntries.map(entry => ''),
+            labels: checkinEntries.map(() => ''),
             datasets: [
                 {
                     data: checkinEntries.map(entry => entry.scores.q1),
                     borderColor: '#4CAF50',
-                    tension: 0.1,
                     borderWidth: 2,
+                    tension: 0.1,
                     pointRadius: 0
                 },
                 {
                     data: checkinEntries.map(entry => entry.scores.q2),
                     borderColor: '#FF9800',
-                    tension: 0.1,
                     borderWidth: 2,
+                    tension: 0.1,
                     pointRadius: 0
                 }
             ]
@@ -144,20 +141,13 @@ function updateSpiritualChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: false }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-                x: {
-                    display: false,
-                    grid: { display: false }
-                },
-                y: {
+                x: { display: false },
+                y: { 
                     display: false,
                     min: 0,
-                    max: 100,
-                    grid: { display: false }
+                    max: 100
                 }
             }
         }
