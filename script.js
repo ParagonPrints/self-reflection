@@ -126,19 +126,14 @@ function declineCookies() {
 }
 
 // Initialize on page load
+// Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    const consent = localStorage.getItem('cookieConsent');
-    const banner = document.getElementById('gdpr-banner');
+    // Initialize cookie consent check
+    checkCookieConsent();
     
-    if (!consent) {
-        banner.style.display = 'block';
-        console.log('Showing GDPR banner');
-    } else {
-        banner.style.display = 'none';
-        if (consent === 'accepted') {
-            loadGoogleAnalytics();
-        }
-    }
+    // Add click handlers
+    document.getElementById('acceptCookies').addEventListener('click', acceptCookies);
+    document.getElementById('declineCookies').addEventListener('click', declineCookies);
 });
   }
   
