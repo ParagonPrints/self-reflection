@@ -181,10 +181,46 @@ button:hover {
 }
 
 /* Spiritual Check-In Specific Styles */
+/* Scripture Guide Items */
+.scripture-guide li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 8px;
+}
+
+.guide-text {
+    flex: 1;
+    margin-right: 1rem;
+    min-width: 0; /* Prevent overflow */
+}
+
+/* Prevent text wrapping */
+.scripture-guide em, 
+.scripture-guide li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scripture-guide li:hover {
+    white-space: normal;
+}
+
+/* Toggle Positioning */
+.toggle-switch {
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
 .spiritual-checkin {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    overflow: hidden
 }
 
 .question-card {
@@ -201,6 +237,7 @@ button:hover {
     background: #f8f9fa;
     border-left: 4px solid #4CAF50;
     border-radius: 4px;
+    min-width: 300px
 }
 
 .scripture-guide h3 {
