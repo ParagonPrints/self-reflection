@@ -72,6 +72,70 @@ button:hover {
     border-radius: 8px;
 }
 
+.gdpr-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 350px;
+    background: #ffffff;
+    color: #333;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    z-index: 1000;
+    display: none;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .gdpr-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .gdpr-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  
+  .gdpr-buttons button {
+    margin-left: 0;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  
+  .gdpr-buttons button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .gdpr-buttons button:last-child {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ddd;
+  }
+  
+  .gdpr-buttons button:hover {
+    transform: translateY(-1px);
+  }
+  
+  .gdpr-banner a {
+    color: #4CAF50;
+    text-decoration: underline;
+  }
+  
+  /* Mobile Optimization */
+  @media (max-width: 480px) {
+    .gdpr-banner {
+      left: 20px;
+      right: 20px;
+      max-width: none;
+      bottom: 10px;
+    }
+  }
+
 .kofi {
     margin-top: 30px;
     text-align: center;
