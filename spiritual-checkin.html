@@ -20,9 +20,21 @@
                 <div class="scripture-guide">
                     <h3>Reflection Guide:</h3>
                     <ul>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 <em>Heart:</em> "Where your treasure is, there your heart will be also" (Matthew 6:21) - Did I prioritize God above all else?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 <em>Soul:</em> "My soul finds rest in God alone" (Psalm 62:1) - Did I cultivate spiritual rest through prayer?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 <em>Mind:</em> "Set your minds on things above" (Colossians 3:2) - What occupied my thoughts today?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 <em>Strength:</em> "Whatever you do, work at it with all your heart, as working for the Lord" (Colossians 3:23) - Did I serve wholeheartedly?</li>
                     </ul>
                 </div>
@@ -34,15 +46,50 @@
                 <div class="scripture-guide">
                     <h3>Reflection Guide:</h3>
                     <ul>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 "Whoever is kind to the poor lends to the Lord" (Proverbs 19:17) - Did I show practical compassion?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 "Bear with each other and forgive" (Colossians 3:13) - Did I maintain unity in relationships?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 "Do not neglect to do good and share" (Hebrews 13:16) - How did I share resources today?</li>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="sub-question" data-question="1">
+                            <span class="slider"></span>
                         <li>📖 "Let your speech always be gracious" (Colossians 4:6) - Did my words build others up?</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Add any tracking buttons/features here -->
+            <!-- Add after the scripture guides -->
+<div class="scoring">
+    <div class="main-score" data-question="1">
+        <div class="score-header">
+            <span>👑 Love God Score: </span>
+            <span class="score-percent">0%</span>
+        </div>
+        <div class="score-bar"></div>
+    </div>
+    
+    <div class="main-score" data-question="2">
+        <div class="score-header">
+            <span>🫶 Love Others Score: </span>
+            <span class="score-percent">0%</span>
+        </div>
+        <div class="score-bar"></div>
+    </div>
+</div>
+
+<div class="chart-container">
+    <canvas id="spiritualChart"></canvas>
+</div>
+
+<button onclick="saveDailyCheckin()">Save Today's Check-In</button>
         </div>
     </div>
 
@@ -56,6 +103,6 @@
             <button id="declineCookies">Decline</button>
         </div>
         </div>
-      </div><!-- Include GDPR banner and scripts -->
+      </div>
 </body>
 </html>
