@@ -110,12 +110,11 @@ function calculateScores() {
         const checked = question === "1" ? q1Toggles : q2Toggles;
         const percent = (checked / 4 * 100);
         
-        container.querySelector('.score-bar').style.setProperty('--score-width', `${percent}%`);
+        container.querySelector('.score-fill').style.width = `${percent}%`;
     });
 }
 
 // Save Functionality
-// Simplified Chart Config
 function updateSpiritualChart() {
     const ctx = document.getElementById('spiritualChart').getContext('2d');
     
@@ -130,23 +129,36 @@ function updateSpiritualChart() {
                     data: checkinEntries.map(entry => entry.scores.q1),
                     borderColor: '#4CAF50',
                     tension: 0.1,
+                    borderWidth: 2,
                     pointRadius: 0
                 },
                 {
                     data: checkinEntries.map(entry => entry.scores.q2),
                     borderColor: '#FF9800',
                     tension: 0.1,
+                    borderWidth: 2,
                     pointRadius: 0
                 }
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                legend: { display: false }
+                legend: { display: false },
+                tooltip: { enabled: false }
             },
             scales: {
-                x: { display: false },
-                y: { display: false }
+                x: {
+                    display: false,
+                    grid: { display: false }
+                },
+                y: {
+                    display: false,
+                    min: 0,
+                    max: 100,
+                    grid: { display: false }
+                }
             }
         }
     });

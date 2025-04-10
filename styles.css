@@ -328,21 +328,31 @@ input:checked + .slider:before {
     position: relative;
 }
 
-.score-bar::after {
-    content: "";
+.score-fill {
     position: absolute;
     left: 0;
     top: 0;
     height: 100%;
-    width: var(--score-width, 0%);
-    background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+    width: 0%;
+    background: linear-gradient(90deg, #FF9800, #45a049 100%);
     border-radius: 10px;
     transition: width 0.5s ease;
 }
 
+[data-question="2"] .score-fill {
+    background: linear-gradient(90deg, #FF9800 0%, #0087f5 100%);
+}
+
 /* Chart Label Removal */
-.chart-container canvas {
-    margin: 0 auto;
+.chart-container {
+    margin: 3rem 0;
+    height: 200px; /* Fixed height */
+    position: relative;
+}
+
+#spiritualChart {
+    height: 100%!important;
+    width: 100%!important;
 }
 
 /* GDPR BANNER */
