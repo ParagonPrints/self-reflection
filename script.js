@@ -99,24 +99,34 @@ function updateChart() {
 let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins') || '[]');
 let spiritualChart = null;
 
-// Score Calculation
+// Score Calculation (called on toggle change now)
 function calculateScores() {
-    // Get toggle counts
-    const q1Checked = document.querySelectorAll('[data-main-question="1"]:checked').length;
-    const q2Checked = document.querySelectorAll('[data-main-question="2"]:checked').length;
-    
+    // Get toggle counts for main question 1
+    const q1Toggles = document.querySelectorAll('[data-main-question="1"]');
+    const q1CheckedCount = Array.from(q1Toggles).filter(toggle => toggle.checked).length;
+
+    // Get toggle counts for main question 2
+    const q2Toggles = document.querySelectorAll('[data-main-question="2"]');
+    const q2CheckedCount = Array.from(q2Toggles).filter(toggle => toggle.checked).length;
+
     // Update progress bars
-    document.querySelector('[data-question="1"] .score-fill').style.width = 
-        `${(q1Checked / 4 * 100)}%`;
-    document.querySelector('[data-question="2"] .score-fill').style.width = 
-        `${(q2Checked / 4 * 100)}%`;
+    const q1ProgressBarFill = document.querySelector('[data-question="1"] .score-fill');
+    const q2ProgressBarFill = document.querySelector('[data-question="2"] .score-fill');
+
+    if (q1ProgressBarFill) {
+        q1ProgressBarFill.style.width = `${(q1CheckedCount / 4 * 100)}%`;
+    }
+
+    if (q2ProgressBarFill) {
+        q2ProgressBarFill.style.width = `${(q2CheckedCount / 4 * 100)}%`;
+    }
 }
 
 function updateSpiritualChart() {
     const ctx = document.getElementById('spiritualChart').getContext('2d');
-    
+
     if (spiritualChart) spiritualChart.destroy();
-    
+
     spiritualChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -144,7 +154,7 @@ function updateSpiritualChart() {
             plugins: { legend: { display: false } },
             scales: {
                 x: { display: false },
-                y: { 
+                y: {
                     display: false,
                     min: 0,
                     max: 100
@@ -153,13 +163,39 @@ function updateSpiritualChart() {
         }
     });
 }
-    
+
+function saveCheckin() {
+    const q1Details = {};
+    document.querySelectorAll('[data-main-question="1"]').forEach(toggle => {
+        q1Details[toggle.id] = toggle.checked;
+    });
+
+    const q2Details = {};
+    document.querySelectorAll('[data-main-question="2"]').forEach(toggle => {
+        q2Details[toggle.id] = toggle.checked;
+    });
+
+    const q1Checked = Object.values(q1Details).filter(Boolean).length;
+    const q2Checked = Object.values(q2Details).filter(Boolean).length;
+
+    const newEntry = {
+        date: new Date().toISOString(),
+        scores: {
+            q1: (q1Checked / 4) * 100,
+            q2: (q2Checked / 4) * 100
+        },
+        details: {
+            q1: q1Details,
+            q2: q2Details
+        }
+    };
+
     // Prevent duplicate daily entries
     const today = new Date().toLocaleDateString();
-    const existingEntry = checkinEntries.find(entry => 
+    const existingEntry = checkinEntries.find(entry =>
         new Date(entry.date).toLocaleDateString() === today
     );
-    
+
     if (!existingEntry) {
         checkinEntries.push(newEntry);
         localStorage.setItem('spiritualCheckins', JSON.stringify(checkinEntries));
@@ -172,29 +208,42 @@ function updateSpiritualChart() {
 
 function showWeaknesses() {
     const weaknesses = [];
-    
+
     // Calculate least-checked items
     const allSubQuestions = checkinEntries.flatMap(entry => [
         ...Object.entries(entry.details.q1),
         ...Object.entries(entry.details.q2)
     ]);
-    
+
     const questionStats = allSubQuestions.reduce((acc, [q, checked]) => {
         acc[q] = (acc[q] || 0) + (checked ? 1 : 0);
         return acc;
     }, {});
-    
+
     Object.entries(questionStats).forEach(([q, count]) => {
         const percentage = (count / checkinEntries.length * 100).toFixed(0);
         if (percentage < 50) {
             weaknesses.push(`Sub-question ${q}: ${percentage}% consistency`);
         }
     });
-    
+
     document.getElementById('weaknessList').innerHTML = weaknesses.length
         ? weaknesses.map(w => `<div class="weakness-item">${w}</div>`).join('')
         : '<p>Great consistency across all practices! 🎉</p>';
 }
+
+// Event listeners to update progress bars on toggle change
+document.addEventListener('DOMContentLoaded', () => {
+    const toggles = document.querySelectorAll('[data-main-question]');
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', calculateScores);
+    });
+
+    // Initial calculation to set progress bars on page load (if needed)
+    calculateScores();
+    updateSpiritualChart(); // Initialize the chart on load
+    showWeaknesses();     // Initialize weaknesses on load
+});
     // Cookie Consent Functions
 function checkCookieConsent() {
     const consent = localStorage.getItem('cookieConsent');
@@ -254,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.head.appendChild(script);
     }
   }
-  
+}  
 
 
 // Initial chart render
