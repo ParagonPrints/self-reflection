@@ -102,27 +102,34 @@ let spiritualChart = null;
 // Score Calculation (called on toggle change now)
 function calculateScores() {
     // Get toggle counts for main question 1
-    const q1Toggles = document.querySelectorAll('[data-main-question="1"]');
-    const q1CheckedCount = Array.from(q1Toggles).filter(toggle => toggle.checked).length;
-
-    // Get toggle counts for main question 2
-    const q2Toggles = document.querySelectorAll('[data-main-question="2"]');
-    const q2CheckedCount = Array.from(q2Toggles).filter(toggle => toggle.checked).length;
-
-    // Update progress bars
-    const q1ProgressBarFill = document.querySelector('[data-question="1"] .score-fill');
-    const q2ProgressBarFill = document.querySelector('[data-question="2"] .score-fill');
-
-    if (q1ProgressBarFill) {
-        q1ProgressBarFill.style.width = `${(q1CheckedCount / 4 * 100)}%`;
-
-        console.log("Q1 Progress Bar Width:", q1ProgressBarFill.style.width);
-    }
-
-    if (q2ProgressBarFill) {
-        q2ProgressBarFill.style.width = `${(q2CheckedCount / 4 * 100)}%`;
-
-        console.log("Q2 Progress Bar Width:", q2ProgressBarFill.style.width);
+    function calculateScores() {
+        // Get toggle counts for main question 1
+        const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
+    
+        // Get toggle counts for main question 2
+        const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
+    
+        // Update progress bars
+        const q1ProgressBarFill = document.querySelector('[data-question="1"] .score-fill');
+        const q2ProgressBarFill = document.querySelector('[data-question="2"] .score-fill');
+    
+        if (q1ProgressBarFill) {
+            q1ProgressBarFill.style.width = `${(q1Toggles / 4 * 100)}%`;
+            console.log("Q1 Progress Bar Width:", q1ProgressBarFill.style.width);
+        }
+    
+        if (q2ProgressBarFill) {
+            q2ProgressBarFill.style.width = `${(q2Toggles / 4 * 100)}%`;
+            console.log("Q2 Progress Bar Width:", q2ProgressBarFill.style.width);
+        }
+    
+        // Update the percentage text (moved from HTML)
+        document.querySelectorAll('.main-score').forEach(container => {
+            const question = container.dataset.question;
+            const checkedCount = question === "1" ? q1Toggles : q2Toggles;
+            const percent = (checkedCount / 4 * 100).toFixed(0);
+            container.querySelector('.score-percent').textContent = `${percent}%`;
+        });
     }
 }
 
