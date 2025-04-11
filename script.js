@@ -115,10 +115,14 @@ function calculateScores() {
 
     if (q1ProgressBarFill) {
         q1ProgressBarFill.style.width = `${(q1CheckedCount / 4 * 100)}%`;
+
+        console.log("Q1 Progress Bar Width:", q1ProgressBarFill.style.width);
     }
 
     if (q2ProgressBarFill) {
         q2ProgressBarFill.style.width = `${(q2CheckedCount / 4 * 100)}%`;
+
+        console.log("Q2 Progress Bar Width:", q2ProgressBarFill.style.width);
     }
 }
 
