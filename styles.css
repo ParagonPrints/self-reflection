@@ -26,16 +26,8 @@
 
 .trackers-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
-    gap: 2rem;
-    padding: 2rem 0;
-}
-
-/* Add media query for mobile */
-@media (max-width: 768px) {
-    .trackers-grid {
-        grid-template-columns: 1fr;
-    }
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .tracker-card {
@@ -68,6 +60,43 @@
 .tracker-badge.coming-soon {
     background: #ff9800;
     color: white;
+}
+
+.trackers-container {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.active-trackers,
+.coming-soon-trackers {
+    flex: 1;
+}
+
+.active-trackers h3,
+.coming-soon-trackers h3 {
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.coming-soon-trackers h3 {
+    color: #FF9800;
+    border-color: #FF9800;
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+    .trackers-container {
+        flex-direction: column;
+    }
+    
+    .active-trackers,
+    .coming-soon-trackers {
+        width: 100%;
+        flex: none;
+    }
 }
 
 .contact-form {
