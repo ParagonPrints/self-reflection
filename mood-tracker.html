@@ -4,75 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Tracker</title>
-    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/site.webmanifest">    
-    <!-- Fonts -->
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <link rel="stylesheet" href="./src/styles.css"
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'G-16YD5TS88K');
-</script>
+        gtag('config', 'G-16YD5TS88K');
+    </script>
 
 </head>
-<header class="header">
-    <a href="https://paragonprints.github.io/self-reflection/">← Back to All Trackers</a>
-    <h1>Daily Mood Tracker</h1>
-</header>
+<body class="font-inter bg-gray-100 text-gray-800 p-4">
+    <header class="bg-slate-800 text-white text-center py-4">
+        <div class="container mx-auto px-4">
+            <a href="https://paragonprints.github.io/self-reflection/" class="text-white hover:text-indigo-300 font-medium">← Back to All Trackers</a>
+            <h1 class="text-xl font-bold mt-2">Daily Mood Tracker</h1>
+        </div>
+    </header>
 
-<body>
-    <div class="container">
-        <h1>Daily Mood Check</h1>
-        
-        <div class="mood-selector">
-            <div class="mood-option" data-mood="1">😞</div>
-            <div class="mood-option" data-mood="2">😐</div>
-            <div class="mood-option" data-mood="3">😊</div>
+    <div class="container max-w-md mx-auto mt-8 bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Daily Mood Check</h1>
+
+        <div class="mood-selector flex justify-center gap-5 mb-6">
+            <div class="mood-option text-5xl cursor-pointer transition transform hover:scale-125" data-mood="1">😞</div>
+            <div class="mood-option text-5xl cursor-pointer transition transform hover:scale-125" data-mood="2">😐</div>
+            <div class="mood-option text-5xl cursor-pointer transition transform hover:scale-125" data-mood="3">😊</div>
         </div>
 
-        <textarea id="notes" placeholder="Add your thoughts..."></textarea>
-        <button onclick="saveEntry()">Save Entry</button>
-        <div class="journal">
-            <h2>Mood Journal</h2>
+        <textarea id="notes" placeholder="Add your thoughts..." class="w-full h-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+        <button onclick="saveEntry()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4 transition transform hover:translate-y-[-2px] focus:outline-none focus:ring-2 focus:ring-green-400">Save Entry</button>
+
+        <div class="journal mt-8 bg-gray-50 rounded-lg p-4">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Mood Journal</h2>
             <div id="journalEntries"></div>
         </div>
-        <canvas id="moodChart"></canvas>
+
+        <canvas id="moodChart" class="mt-8 bg-white rounded-lg p-4 shadow-sm"></canvas>
     </div>
 
     <script src="script.js"></script>
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script>
-    kofiWidgetOverlay.draw('paragoncollective', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'Support Us',
-        'floating-chat.donateButton.background-color': '#323842',
-        'floating-chat.donateButton.text-color': '#fff'
-    });
-</script>
-</script>
+        kofiWidgetOverlay.draw('paragoncollective', {
+            'type': 'floating-chat',
+            'floating-chat.donateButton.text': 'Support Us',
+            'floating-chat.donateButton.background-color': '#323842',
+            'floating-chat.donateButton.text-color': '#fff'
+        });
+    </script>
 </body>
-<!-- GDPR Notice -->
-<div id="gdpr-banner" class="gdpr-banner">
-    <div class="gdpr-content">
-      <p>We use cookies to analyze site usage. Your data remains anonymous. 
-        <a href="privacy.html">Privacy Policy</a>
-      </p>
-      <div class="gdpr-buttons">
-        <button id="acceptCookies">Accept</button>
-        <button id="declineCookies">Decline</button>
+<div id="gdpr-banner" class="fixed top-1/2 right-5 -translate-y-1/2 max-w-sm bg-white text-gray-700 p-6 rounded-lg shadow-xl z-50 border border-gray-200 flex flex-col">
+    <div class="mb-4">
+        <p class="text-sm">We use cookies to analyze site usage. Your data remains anonymous.
+        <a href="privacy.html" class="text-green-500 underline">Privacy Policy</a>
+        </p>
     </div>
+    <div class="flex justify-end gap-2">
+        <button id="acceptCookies" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm transition transform hover:translate-y-[-1px] focus:outline-none focus:ring-green-400">Accept</button>
+        <button id="declineCookies" class="bg-transparent hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded text-sm border border-gray-300 transition transform hover:translate-y-[-1px] focus:outline-none focus:ring-gray-300">Decline</button>
     </div>
-  </div>
+</div>
 </html>

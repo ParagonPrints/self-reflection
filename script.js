@@ -4,13 +4,10 @@ let moodChart = null;
 let entries = JSON.parse(localStorage.getItem('moodEntries') || '[]');
 let selectedMood = null;
 
-document.querySelectorAll('.mood-option').forEach(option => {
-    option.addEventListener('click', function() {
-        selectedMood = parseInt(this.dataset.mood);
-        document.querySelectorAll('.mood-option').forEach(o => o.style.opacity = 0.5);
-        this.style.opacity = 1;
-    });
-});
+document.querySelectorAll('.mood-option').forEach(o => o.classList.remove('opacity-100', 'opacity-50'));
+document.querySelectorAll('.mood-option').forEach(o => o.classList.add('opacity-50'));
+this.classList.remove('opacity-50');
+this.classList.add('opacity-100');
 
 function saveEntry() {
     if (!selectedMood) {
