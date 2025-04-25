@@ -1,13 +1,18 @@
+// Mood Tracker Logic
 let moodChart = null;
-
-// Initialize from localStorage
 let entries = JSON.parse(localStorage.getItem('moodEntries') || '[]');
 let selectedMood = null;
 
-document.querySelectorAll('.mood-option').forEach(o => o.classList.remove('opacity-100', 'opacity-50'));
-document.querySelectorAll('.mood-option').forEach(o => o.classList.add('opacity-50'));
-this.classList.remove('opacity-50');
-this.classList.add('opacity-100');
+function handleMoodSelect(event) {
+    const clickedOption = event.target;
+    selectedMood = parseInt(clickedOption.dataset.mood);
+    document.querySelectorAll('.mood-option').forEach(option => {
+        option.classList.remove('opacity-100');
+        option.classList.add('opacity-50');
+    });
+    clickedOption.classList.remove('opacity-50');
+    clickedOption.classList.add('opacity-100');
+}
 
 function saveEntry() {
     if (!selectedMood) {
@@ -24,11 +29,14 @@ function saveEntry() {
 
     entries.push(entry);
     localStorage.setItem('moodEntries', JSON.stringify(entries));
-    
+
     updateChart();
     document.getElementById('notes').value = '';
     selectedMood = null;
-    document.querySelectorAll('.mood-option').forEach(o => o.style.opacity = 0.5);
+    document.querySelectorAll('.mood-option').forEach(o => {
+        o.classList.remove('opacity-100');
+        o.classList.add('opacity-50');
+    });
 }
 
 function getTimeOfDay() {
@@ -40,16 +48,18 @@ function getTimeOfDay() {
 
 function displayJournal() {
     const container = document.getElementById('journalEntries');
-    container.innerHTML = entries
-        .map(entry => `
-            <div class="journal-entry">
-                <strong>${new Date(entry.timestamp).toLocaleString()}</strong> 
-                (${entry.timeOfDay}):
-                <span class="mood-emoji">${getEmoji(entry.mood)}</span>
-                <p>${entry.note || 'No notes'}</p>
-            </div>
-        `)
-        .join('');
+    if (container) {
+        container.innerHTML = entries
+            .map(entry => `
+                <div class="journal-entry">
+                    <strong>${new Date(entry.timestamp).toLocaleString()}</strong>
+                    (${entry.timeOfDay}):
+                    <span class="mood-emoji">${getEmoji(entry.mood)}</span>
+                    <p>${entry.note || 'No notes'}</p>
+                </div>
+            `)
+            .join('');
+    }
 }
 
 function getEmoji(moodValue) {
@@ -58,118 +68,109 @@ function getEmoji(moodValue) {
 }
 
 function updateChart() {
-    const ctx = document.getElementById('moodChart').getContext('2d');
-    const labels = entries.map(entry => 
-        new Date(entry.timestamp).toLocaleDateString() + ' ' + entry.timeOfDay
-    );
-    
-    if (moodChart) moodChart.destroy();
-    
-    moodChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Mood Level',
-                data: entries.map(entry => entry.mood),
-                borderColor: '#4CAF50',
-                tension: 0.1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    min: 1,
-                    max: 3,
-                    ticks: {
-                        callback: function(value) {
-                            const moods = ['', 'Sad', 'Neutral', 'Happy'];
-                            return moods[value];
+    const ctx = document.getElementById('moodChart');
+    if (ctx) {
+        const labels = entries.map(entry =>
+            new Date(entry.timestamp).toLocaleDateString() + ' ' + entry.timeOfDay
+        );
+
+        if (moodChart) moodChart.destroy();
+
+        moodChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Mood Level',
+                    data: entries.map(entry => entry.mood),
+                    borderColor: '#4CAF50',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 1,
+                        max: 3,
+                        ticks: {
+                            callback: function(value) {
+                                const moods = ['', 'Sad', 'Neutral', 'Happy'];
+                                return moods[value];
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    }
+}
 
 // Spiritual Check-In Logic
 let checkinEntries = JSON.parse(localStorage.getItem('spiritualCheckins') || '[]');
 let spiritualChart = null;
 
-// Score Calculation (called on toggle change now)
 function calculateScores() {
-    // Get toggle counts for main question 1
-    function calculateScores() {
-        // Get toggle counts for main question 1
-        const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
-    
-        // Get toggle counts for main question 2
-        const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
-    
-        // Update progress bars
-        const q1ProgressBarFill = document.querySelector('[data-question="1"] .score-fill');
-        const q2ProgressBarFill = document.querySelector('[data-question="2"] .score-fill');
-    
-        if (q1ProgressBarFill) {
-            q1ProgressBarFill.style.width = `${(q1Toggles / 4 * 100)}%`;
-            console.log("Q1 Progress Bar Width:", q1ProgressBarFill.style.width);
-        }
-    
-        if (q2ProgressBarFill) {
-            q2ProgressBarFill.style.width = `${(q2Toggles / 4 * 100)}%`;
-            console.log("Q2 Progress Bar Width:", q2ProgressBarFill.style.width);
-        }
-    
-        // Update the percentage text (moved from HTML)
-        document.querySelectorAll('.main-score').forEach(container => {
-            const question = container.dataset.question;
-            const checkedCount = question === "1" ? q1Toggles : q2Toggles;
-            const percent = (checkedCount / 4 * 100).toFixed(0);
-            container.querySelector('.score-percent').textContent = `${percent}%`;
-        });
-    }
+    const q1Toggles = document.querySelectorAll('[data-main-question="1"]:checked').length;
+    const q2Toggles = document.querySelectorAll('[data-main-question="2"]:checked').length;
+
+    document.querySelectorAll('[data-question="1"] .score-fill').forEach(el => {
+        el.style.width = `${(q1Toggles / 4 * 100)}%`;
+    });
+
+    document.querySelectorAll('[data-question="2"] .score-fill').forEach(el => {
+        el.style.width = `${(q2Toggles / 4 * 100)}%`;
+    });
+
+    document.querySelectorAll('.main-score').forEach(container => {
+        const question = container.dataset.question;
+        const checkedCount = question === "1" ? q1Toggles : q2Toggles;
+        const percent = (checkedCount / 4 * 100).toFixed(0);
+        const percentSpan = container.querySelector('.score-percent');
+        if (percentSpan) percentSpan.textContent = `${percent}%`;
+    });
 }
 
 function updateSpiritualChart() {
-    const ctx = document.getElementById('spiritualChart').getContext('2d');
+    const ctx = document.getElementById('spiritualChart');
+    if (ctx) {
+        if (spiritualChart) spiritualChart.destroy();
 
-    if (spiritualChart) spiritualChart.destroy();
-
-    spiritualChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: checkinEntries.map(() => ''),
-            datasets: [
-                {
-                    data: checkinEntries.map(entry => entry.scores.q1),
-                    borderColor: '#4CAF50',
-                    borderWidth: 2,
-                    tension: 0.1,
-                    pointRadius: 0
-                },
-                {
-                    data: checkinEntries.map(entry => entry.scores.q2),
-                    borderColor: '#FF9800',
-                    borderWidth: 2,
-                    tension: 0.1,
-                    pointRadius: 0
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { display: false },
-                y: {
-                    display: false,
-                    min: 0,
-                    max: 100
+        spiritualChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: checkinEntries.map(() => ''),
+                datasets: [
+                    {
+                        data: checkinEntries.map(entry => entry.scores.q1),
+                        borderColor: '#4CAF50',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        pointRadius: 0
+                    },
+                    {
+                        data: checkinEntries.map(entry => entry.scores.q2),
+                        borderColor: '#FF9800',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: {
+                        display: false,
+                        min: 0,
+                        max: 100
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 }
 
 function saveCheckin() {
@@ -198,7 +199,6 @@ function saveCheckin() {
         }
     };
 
-    // Prevent duplicate daily entries
     const today = new Date().toLocaleDateString();
     const existingEntry = checkinEntries.find(entry =>
         new Date(entry.date).toLocaleDateString() === today
@@ -217,7 +217,6 @@ function saveCheckin() {
 function showWeaknesses() {
     const weaknesses = [];
 
-    // Calculate least-checked items
     const allSubQuestions = checkinEntries.flatMap(entry => [
         ...Object.entries(entry.details.q1),
         ...Object.entries(entry.details.q2)
@@ -228,91 +227,99 @@ function showWeaknesses() {
         return acc;
     }, {});
 
-    Object.entries(questionStats).forEach(([q, count]) => {
-        const percentage = (count / checkinEntries.length * 100).toFixed(0);
-        if (percentage < 50) {
-            weaknesses.push(`Sub-question ${q}: ${percentage}% consistency`);
-        }
-    });
-
-    document.getElementById('weaknessList').innerHTML = weaknesses.length
-        ? weaknesses.map(w => `<div class="weakness-item">${w}</div>`).join('')
-        : '<p>Great consistency across all practices! 🎉</p>';
+    const weaknessListDiv = document.getElementById('weaknessList');
+    if (weaknessListDiv) {
+        weaknessListDiv.innerHTML = weaknesses.length
+            ? weaknesses.map(w => `<div class="weakness-item">${w}</div>`).join('')
+            : '<p>Great consistency across all practices! 🎉</p>';
+    }
 }
 
-// Event listeners to update progress bars on toggle change
 document.addEventListener('DOMContentLoaded', () => {
+    // Mood Tracker
+    const moodOptions = document.querySelectorAll('.mood-option');
+    moodOptions.forEach(option => {
+        option.addEventListener('click', handleMoodSelect);
+    });
+
+    const saveMoodButton = document.getElementById('saveMoodEntry');
+    if (saveMoodButton) {
+        saveMoodButton.addEventListener('click', saveEntry);
+    }
+    updateChart();
+    displayJournal();
+
+    // Spiritual Check-In
     const toggles = document.querySelectorAll('[data-main-question]');
     toggles.forEach(toggle => {
         toggle.addEventListener('change', calculateScores);
     });
 
-    // Initial calculation to set progress bars on page load (if needed)
+    const saveCheckinButton = document.querySelector('.spiritual-checkin .save-button');
+    if (saveCheckinButton) {
+        saveCheckinButton.addEventListener('click', saveCheckin);
+    }
     calculateScores();
-    updateSpiritualChart(); // Initialize the chart on load
-    showWeaknesses();     // Initialize weaknesses on load
-});
-    // Cookie Consent Functions
-function checkCookieConsent() {
-    const consent = localStorage.getItem('cookieConsent');
-    if (!consent) {
-      document.getElementById('gdpr-banner').style.display = 'block';
-    }
-    return consent;
-  }
-  
-// Cookie Consent Functions
-function acceptCookies() {
-    try {
-        localStorage.setItem('cookieConsent', 'accepted');
-        document.getElementById('gdpr-banner').style.display = 'none';
-        loadGoogleAnalytics();
-        console.log('Cookies accepted - Analytics loaded');
-    } catch (e) {
-        console.error('Error saving consent:', e);
-    }
-}
+    updateSpiritualChart();
+    showWeaknesses();
 
-function declineCookies() {
-    try {
-        localStorage.setItem('cookieConsent', 'declined');
-        document.getElementById('gdpr-banner').style.display = 'none';
-        console.log('Cookies declined');
-    } catch (e) {
-        console.error('Error saving rejection:', e);
+    // Cookie Consent
+    function checkCookieConsent() {
+        const consent = localStorage.getItem('cookieConsent');
+        if (!consent) {
+            const banner = document.getElementById('gdpr-banner');
+            if (banner) banner.style.display = 'block';
+        }
+        return consent;
     }
-}
 
-// Initialize on page load
-// Event Listeners
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize cookie consent check
+    function acceptCookies() {
+        try {
+            localStorage.setItem('cookieConsent', 'accepted');
+            const banner = document.getElementById('gdpr-banner');
+            if (banner) banner.style.display = 'none';
+            loadGoogleAnalytics();
+            console.log('Cookies accepted - Analytics loaded');
+        } catch (e) {
+            console.error('Error saving consent:', e);
+        }
+    }
+
+    function declineCookies() {
+        try {
+            localStorage.setItem('cookieConsent', 'declined');
+            const banner = document.getElementById('gdpr-banner');
+            if (banner) banner.style.display = 'none';
+            console.log('Cookies declined');
+        } catch (e) {
+            console.error('Error saving rejection:', e);
+        }
+    }
+
+    const acceptButton = document.getElementById('acceptCookies');
+    if (acceptButton) {
+        acceptButton.addEventListener('click', acceptCookies);
+    }
+
+    const declineButton = document.getElementById('declineCookies');
+    if (declineButton) {
+        declineButton.addEventListener('click', declineCookies);
+    }
+
     checkCookieConsent();
-    
-    // Add click handlers
-    document.getElementById('acceptCookies').addEventListener('click', acceptCookies);
-    document.getElementById('declineCookies').addEventListener('click', declineCookies);
+    loadGoogleAnalytics();
 });
-  
-  
-  // Google Analytics Loader
-  function loadGoogleAnalytics() {
+
+function loadGoogleAnalytics() {
     if (localStorage.getItem('cookieConsent') === 'accepted') {
-      // Google Analytics
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-16YD5TS88K'); // Replace with your GA ID
-  
-      // Add GA script dynamically
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K';
-      document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-16YD5TS88K');
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-16YD5TS88K';
+        document.head.appendChild(script);
     }
-  }
-}  
-
-
-// Initial chart render
-updateChart(); displayJournal();
+}

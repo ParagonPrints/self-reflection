@@ -42,7 +42,7 @@
         </div>
 
         <textarea id="notes" placeholder="Add your thoughts..." class="w-full h-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-        <button onclick="saveEntry()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4 transition transform hover:translate-y-[-2px] focus:outline-none focus:ring-2 focus:ring-green-400">Save Entry</button>
+        <button id="saveMoodEntry" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4 transition transform hover:translate-y-[-2px] focus:outline-none focus:ring-2 focus:ring-green-400">Save Entry</button>
 
         <div class="journal mt-8 bg-gray-50 rounded-lg p-4">
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Mood Journal</h2>
@@ -52,8 +52,7 @@
         <canvas id="moodChart" class="mt-8 bg-white rounded-lg p-4 shadow-sm"></canvas>
     </div>
 
-    <script src="script.js"></script>
-    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script>
         kofiWidgetOverlay.draw('paragoncollective', {
             'type': 'floating-chat',
