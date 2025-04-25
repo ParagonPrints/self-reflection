@@ -4,31 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiritual and Personal Growth</title>
-    <link rel="stylesheet" href="/src/styles.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon/favicon-32x32.png">
 </head>
-<body>
-    <header class="header">
-        <h1>Growth Tools</h1>
-        <nav>
-            <a href="#trackers">Trackers</a>
-            <a href="#contact">Suggestions</a>
-        </nav>
+<body class="bg-gray-100 font-inter text-gray-800">
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">Growth Tools</h1>
+            <nav>
+                <a href="#trackers" class="text-gray-700 hover:text-indigo-600 mr-4">Trackers</a>
+                <a href="#contact" class="text-gray-700 hover:text-indigo-600">Suggestions</a>
+            </nav>
+        </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h2>Self-Reflection Tools for Spiritual Development</h2>
-            <p>Track your emotional and spiritual growth through structured self-assessment</p>
+    <main class="container mx-auto mt-8 px-4">
+        <section class="hero py-16 text-center">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4">Self-Reflection Tools for Spiritual Development</h2>
+            <p class="text-lg text-gray-600">Track your emotional and spiritual growth through structured self-assessment</p>
         </section>
 
-        <section id="trackers" class="py-10 bg-gray-50">
-            <div class="container mx-auto px-4">
+        <section id="trackers" class="py-10">
+            <div class="mx-auto max-w-6xl px-4">
                 <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Growth Tools</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -52,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div>
                         <h3 class="text-xl font-semibold mb-4 text-gray-700">Coming Soon</h3>
                         <div class="space-y-4">
@@ -78,36 +77,35 @@
             </div>
         </section>
 
-
-        <section id="contact" class="contact-form">
-            <h2>Suggest a New Tracker</h2>
-            <form action="https://formspree.io/f/xqapwgaw" method="POST">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+        <section id="contact" class="py-12 bg-gray-100 rounded-lg shadow-md p-8 mt-8">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Suggest a New Tracker</h2>
+            <form action="https://formspree.io/f/xqapwgaw" method="POST" class="max-w-md mx-auto">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                    <input type="text" id="name" name="name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="email" name="email" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
-                <div class="form-group">
-                    <label for="message">Tracker Idea:</label>
-                    <textarea id="message" name="message" rows="4" required></textarea>
+                <div class="mb-6">
+                    <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Tracker Idea:</label>
+                    <textarea id="message" name="message" rows="4" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                 </div>
-                <button type="submit" class="button">Send Suggestion</button>
+                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send Suggestion</button>
             </form>
         </section>
     </main>
 
-    <div id="gdpr-banner" class="gdpr-banner">
+    <div id="gdpr-banner" class="fixed bottom-0 left-0 w-full bg-gray-200 py-4 px-6 text-gray-700 shadow-md flex justify-between items-center">
         <div class="gdpr-content">
-            <p>We use cookies to analyze site usage. Your data remains anonymous. 
-            <a href="privacy.html">Privacy Policy</a>
+            <p>We use cookies to analyze site usage. Your data remains anonymous.
+            <a href="privacy.html" class="text-indigo-500 hover:underline">Privacy Policy</a>
             </p>
-            <div class="gdpr-buttons">
-            <button id="acceptCookies">Accept</button>
-            <button id="declineCookies">Decline</button>
         </div>
+        <div class="gdpr-buttons">
+            <button id="acceptCookies" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Accept</button>
+            <button id="declineCookies" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Decline</button>
         </div>
     </div>
 
@@ -115,12 +113,12 @@
 
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script>
-    kofiWidgetOverlay.draw('paragoncollective', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'Support Us',
-        'floating-chat.donateButton.background-color': '#323842',
-        'floating-chat.donateButton.text-color': '#fff'
-    });
-</script>
+        kofiWidgetOverlay.draw('paragoncollective', {
+            'type': 'floating-chat',
+            'floating-chat.donateButton.text': 'Support Us',
+            'floating-chat.donateButton.background-color': '#323842',
+            'floating-chat.donateButton.text-color': '#fff'
+        });
+    </script>
 </body>
 </html>
