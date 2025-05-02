@@ -168,11 +168,15 @@ function updateSpiritualChart() {
                 maintainAspectRatio: false,
                 scales: {
                     y: {
+                        display: false, // Hide y-axis
                         min: 0,
                         max: 100,
-                        title: {
-                            display: true,
-                            text: 'Percentage'
+                        // title: { // Remove y-axis title
+                        //     display: true,
+                        //     text: 'Percentage'
+                        // }
+                        ticks: {
+                            display: false // Hide y-axis ticks
                         }
                     },
                     x: {
