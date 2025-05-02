@@ -31,6 +31,7 @@ function saveEntry() {
     localStorage.setItem('moodEntries', JSON.stringify(entries));
 
     updateChart();
+    displayJournal(); // Call displayJournal here
     document.getElementById('notes').value = '';
     selectedMood = null;
     document.querySelectorAll('.mood-option').forEach(o => {
@@ -49,7 +50,8 @@ function getTimeOfDay() {
 function displayJournal() {
     const container = document.getElementById('journalEntries');
     if (container) {
-        container.innerHTML = entries
+        console.log('Entries in displayJournal:', entries); // Debugging line
+        const journalHTML = entries
             .map(entry => `
                 <div class="journal-entry">
                     <strong>${new Date(entry.timestamp).toLocaleString()}</strong>
@@ -59,6 +61,8 @@ function displayJournal() {
                 </div>
             `)
             .join('');
+        console.log('Generated Journal HTML:', journalHTML); // Debugging line
+        container.innerHTML = journalHTML;
     }
 }
 
@@ -133,41 +137,52 @@ function calculateScores() {
 function updateSpiritualChart() {
     const ctx = document.getElementById('spiritualChart');
     if (ctx) {
+        console.log('checkinEntries in updateSpiritualChart:', checkinEntries); // Debugging
         if (spiritualChart) spiritualChart.destroy();
 
         spiritualChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: checkinEntries.map(() => ''),
+                labels: checkinEntries.map(entry => new Date(entry.date).toLocaleDateString()), // Added labels
                 datasets: [
                     {
+                        label: 'Love God',
                         data: checkinEntries.map(entry => entry.scores.q1),
                         borderColor: '#4CAF50',
                         borderWidth: 2,
                         tension: 0.1,
-                        pointRadius: 0
+                        pointRadius: 3
                     },
                     {
+                        label: 'Love Neighbor',
                         data: checkinEntries.map(entry => entry.scores.q2),
                         borderColor: '#FF9800',
                         borderWidth: 2,
                         tension: 0.1,
-                        pointRadius: 0
+                        pointRadius: 3
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
                 scales: {
-                    x: { display: false },
                     y: {
-                        display: false,
                         min: 0,
-                        max: 100
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Percentage'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
                     }
-                }
+                },
+                plugins: { legend: { display: true } } // Show legend
             }
         });
     }
@@ -208,6 +223,7 @@ function saveCheckin() {
         checkinEntries.push(newEntry);
         localStorage.setItem('spiritualCheckins', JSON.stringify(checkinEntries));
         updateSpiritualChart();
+        showWeaknesses();
         alert('Check-in saved successfully!');
     } else {
         alert('You already completed today\'s check-in!');
@@ -247,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveMoodButton.addEventListener('click', saveEntry);
     }
     updateChart();
-    displayJournal();
+    displayJournal(); // Call on load
 
     // Spiritual Check-In
     const toggles = document.querySelectorAll('[data-main-question]');
@@ -260,8 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCheckinButton.addEventListener('click', saveCheckin);
     }
     calculateScores();
-    updateSpiritualChart();
-    showWeaknesses();
+    updateSpiritualChart(); // Call on load
+    showWeaknesses(); // Call on load
 
     // Cookie Consent
     function checkCookieConsent() {
