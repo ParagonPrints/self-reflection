@@ -235,26 +235,61 @@ function saveCheckin() {
 }
 
 function showWeaknesses() {
-    const weaknesses = [];
-
-    const allSubQuestions = checkinEntries.flatMap(entry => [
-        ...Object.entries(entry.details.q1),
-        ...Object.entries(entry.details.q2)
-    ]);
-
-    const questionStats = allSubQuestions.reduce((acc, [q, checked]) => {
-        acc[q] = (acc[q] || 0) + (checked ? 1 : 0);
-        return acc;
-    }, {});
-
     const weaknessListDiv = document.getElementById('weaknessList');
-    if (weaknessListDiv) {
-        weaknessListDiv.innerHTML = weaknesses.length
-            ? weaknesses.map(w => `<div class="weakness-item">${w}</div>`).join('')
-            : '<p>Great consistency across all practices! 🎉</p>';
+    if (!weaknessListDiv) {
+        return;
+    }
+
+    const practices = {
+        'practice1-1': 'Reflecting on God\'s Word',
+        'practice1-2': 'Praying and Seeking God',
+        'practice1-3': 'Fellowshipping with Believers',
+        'practice1-4': 'Sharing Your Faith',
+        'practice2-1': 'Showing Kindness',
+        'practice2-2': 'Practicing Forgiveness',
+        'practice2-3': 'Serving Others',
+        'practice2-4': 'Speaking Truth in Love',
+    };
+
+    const missedConsecutively = {};
+
+    // Sort entries by date
+    const sortedEntries = [...checkinEntries].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    for (let i = 0; i < sortedEntries.length - 1; i++) {
+        const currentDate = new Date(sortedEntries[i].date).toLocaleDateString();
+        const nextDate = new Date(sortedEntries[i + 1].date).toLocaleDateString();
+
+        // Check if the entries are consecutive days
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        if (new Date(sortedEntries[i + 1].date) - new Date(sortedEntries[i].date) === oneDayMs) {
+            const currentDetailsQ1 = sortedEntries[i].details.q1;
+            const nextDetailsQ1 = sortedEntries[i + 1].details.q1;
+            const currentDetailsQ2 = sortedEntries[i].details.q2;
+            const nextDetailsQ2 = sortedEntries[i + 1].details.q2;
+
+            for (const practiceId in practices) {
+                const questionGroup = practiceId.startsWith('practice1') ? 'q1' : 'q2';
+                const currentDetails = questionGroup === 'q1' ? currentDetailsQ1 : currentDetailsQ2;
+                const nextDetails = questionGroup === 'q1' ? nextDetailsQ1 : nextDetailsQ2;
+
+                if (currentDetails[practiceId] === false && nextDetails[practiceId] === false) {
+                    missedConsecutively[practiceId] = practices[practiceId];
+                }
+            }
+        }
+    }
+
+    const weaknesses = Object.values(missedConsecutively);
+
+    if (weaknesses.length > 0) {
+        weaknessListDiv.innerHTML = weaknesses
+            .map(weakness => `<div class="weakness-item">Growth Opportunity: Focus on consistent engagement in <strong>${weakness}</strong>.</div>`)
+            .join('');
+    } else {
+        weaknessListDiv.innerHTML = '<p>Great consistency across all practices! 🎉</p>';
     }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     // Mood Tracker
     const moodOptions = document.querySelectorAll('.mood-option');
